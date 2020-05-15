@@ -1,0 +1,9 @@
+[package]
+name = "portscan"
+version = "0.1.0"
+authors = ["Jaza K <jazakhan2246@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
