@@ -5,6 +5,8 @@ use std::process; // manages the way program shuts down/terminates
 use std::sync::mpsc::{Sender, channel};
 use std::thread;
 
+const MAX: u16 = 65535; // max port # that can be sniffed
+
 struct Arguments { // struct to define & hold arguments' type
     flag: String,
     ipaddress: IpAddr,
@@ -53,6 +55,10 @@ impl Arguments { // implementation block to allow instantiation of Arguments str
     }
 }
 
+fn scan(tx: Sender<u16>, start_port<u16>, addr: IpAddr, num_threads: u16) {
+
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect(); // take all arguments passed and place them in a Vec
     let program = args[0].clone();
@@ -68,4 +74,15 @@ fn main() {
             }
         }
     );
+    
+    let num_threads = arguments.threads; // bind arguments.threads to variable 'num_threads'
+    let (tx, rx) = channel(); // instantiate a channel, destruct the tuple which is returned
+
+    for i in 0..num_threads { // iterate from 0 to number of threads
+        let tx = tx.clone(); // bind 'tx' to a separate tx, ensure each thread has its own transmitter
+
+        thread::spawn(move || {
+            scan(tx, i, arguments.ipaddress, num_threads);
+        });
+    }
 }
