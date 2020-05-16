@@ -92,8 +92,8 @@ fn main() {
     );
     
     let num_threads = arguments.threads; // bind arguments.threads to variable 'num_threads'
-    let addr = arguments.ipaddress;
-    let (tx, rx) = channel(); // instantiate a channel, destruct the tuple which is returned
+    let addr = arguments.ipaddress; // create variable 'addr' which corresponds to arguments.ipaddress
+    let (tx, rx) = channel(); // instantiate a channel, destruct the tuple which is returned into tx, rx
 
     for i in 0..num_threads { // iterate from 0 to number of threads
         let tx = tx.clone(); // bind 'tx' to a separate tx, ensure each thread has its own transmitter
@@ -101,5 +101,17 @@ fn main() {
         thread::spawn(move || {
             scan(tx, i, addr, num_threads);
         });
+    }
+    
+    let mut out = vec![];
+    drop(tx); // call drop() method on tx to ensure it is not in the main thread
+    for j in rx { // get output from receiver by iterating over it and pushing values to 'out' vector
+        out.push(j);
+    }
+    println!("\n\nScan report for {}", addr);
+    println!("");
+    out.sort(); // sort output in order
+    for k in out {
+        println!("Port {} is open", k);
     }
 }
