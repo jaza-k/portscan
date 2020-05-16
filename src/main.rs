@@ -92,13 +92,14 @@ fn main() {
     );
     
     let num_threads = arguments.threads; // bind arguments.threads to variable 'num_threads'
+    let addr = arguments.ipaddress;
     let (tx, rx) = channel(); // instantiate a channel, destruct the tuple which is returned
 
     for i in 0..num_threads { // iterate from 0 to number of threads
         let tx = tx.clone(); // bind 'tx' to a separate tx, ensure each thread has its own transmitter
 
         thread::spawn(move || {
-            scan(tx, i, arguments.ipaddress, num_threads);
+            scan(tx, i, addr, num_threads);
         });
     }
 }
