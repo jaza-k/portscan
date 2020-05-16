@@ -1,5 +1,6 @@
 use std::env;
-use std::net::IpAddr;
+use std::io::{self, Write};
+use std::net::{IpAddr, TcpStream};
 use std::str::FromStr; // FromStr trait allows conversion of String to IpAddr type
 use std::process; // manages the way program shuts down/terminates
 use std::sync::mpsc::{Sender, channel};
@@ -55,8 +56,23 @@ impl Arguments { // implementation block to allow instantiation of Arguments str
     }
 }
 
-fn scan(tx: Sender<u16>, start_port<u16>, addr: IpAddr, num_threads: u16) {
-
+// start_port argument allows scan function to scale based on number of threads passed in
+fn scan(tx: Sender<u16>, start_port: u16, addr: IpAddr, num_threads: u16) {
+    let mut port: u16 = start_port + 1; // start looking from port 1 and not 0
+    loop {
+        match TcpStream::connect((addr, port)) {
+            Ok(_) => { // if port is open
+                print!(".");
+                io::stdout().flush().unwrap(); // flush method sends print statements to a mutex of shared data
+                tx.send(port).unwrap(); // sends the # of open port back to rx
+            }
+            Err(_) => {} // return an empty expression in case of error
+        }
+        if (MAX - port) <= num_threads { // ensures to break loop when max port is reached
+            break;
+        }
+        port += num_threads; // iterate port by the number of thread
+    }
 }
 
 fn main() {
