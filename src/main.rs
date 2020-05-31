@@ -31,13 +31,13 @@ impl Arguments { // implementation block to allow instantiation of Arguments str
         else { // else if converting 'first' to IP address fails
             let flag = args[1].clone();
             if flag.contains("-h") || flag.contains("-help") && args.len() == 2 {
-                println!("Usage: -j to select number of threads\r\n-h or -help to show help message");
+                println!("Usage: -t to select number of threads\r\n-h or -help to show help message");
                 return Err("Help");
             }
             else if flag.contains("-h") || flag.contains("-help") {
                 return Err("ERROR - Too many arguments");
             }
-            else if flag.contains("-j") {
+            else if flag.contains("-t") {
                 // match on turning arguments[3] to an IP address & bind it to variable 'ipaddr'
                 let ipaddress = match IpAddr::from_str(&args[3]) {
                     Ok(s) => s,
