@@ -1,5 +1,5 @@
 # PortScan
-A tool to scan for all open ports that can be accessed via the console. Made in Rust using only standard libraries.
+A command line tool to scan for all open ports. Made in Rust using only standard libraries.
 
 ## To run
 Ensure you have Rust & Cargo installed on your machine.
