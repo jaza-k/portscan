@@ -4,4 +4,4 @@ A command line tool to scan for all open ports. Made in Rust using only standard
 ## To run
 Ensure you have Rust & Cargo installed on your machine.
 - Clone this repository using the command ```git clone https://github.com/jaza-k/portscan```
-- Run ```cargo run -- -j [number of threads] [IP address]```
+- Run ```cargo run -- -j <number of threads> <IP address>```
